@@ -1,10 +1,13 @@
-name: CI/CD
+name: CI/CD Pipeline
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+
+env:
+  IMAGE_NAME: damiennerri/devops_serveur
 
 jobs:
   test:
@@ -22,7 +25,7 @@ jobs:
           --health-cmd="mysqladmin ping -h 127.0.0.1 -u root -proot"
           --health-interval=5s
           --health-timeout=5s
-          --health-retries=10
+          --health-retries=20
 
     env:
       DB_HOST: 127.0.0.1
@@ -34,7 +37,7 @@ jobs:
       ADMIN_PASSWORD: secret
 
     steps:
-      - name: 📥 Checkout code
+      - name: 📥 Checkout
         uses: actions/checkout@v4
 
       - name: 🟢 Setup Node.js
@@ -45,51 +48,56 @@ jobs:
       - name: 📦 Install dependencies
         run: npm ci
 
-      - name: 🧼 Lint with ESLint
+      - name: 🧼 Lint
         run: npx eslint .
 
-      - name: ⏳ Wait for MariaDB to be ready
+      - name: ⏳ Wait for MariaDB
         run: |
-          echo "Attente de MariaDB..."
           for i in {1..30}; do
-            if mysqladmin ping -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASSWORD" --silent; then
-              echo "✅ MariaDB est prête !"
+            if mysqladmin ping -h 127.0.0.1 -u root -proot --silent; then
+              echo "✅ MariaDB is ready"
               break
             fi
-            echo "⏳ En attente... ($i)"
             sleep 2
           done
 
-      - name: 🗃️ Seed database
+      - name: 🗃️ Seed DB
         run: node seed.js
 
-      - name: ✅ Run unit tests
+      - name: ✅ Unit Tests
         run: npm test -- --testPathPattern=validation
 
-      - name: 🚀 Run E2E tests
+      - name: 🚀 E2E Tests
         run: npm test -- --testPathPattern=e2e
 
-  build:
+  build_and_push:
     needs: test
     runs-on: ubuntu-latest
     if: success()
+
     steps:
-      - name: 📥 Checkout code
+      - name: 📥 Checkout
         uses: actions/checkout@v4
 
-      - name: 🔧 Set up Docker Buildx
+      - name: 🕒 Set image tag with current timestamp
+        id: set_tag
+        run: echo "IMAGE_TAG=$(date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
+
+      - name: 🔧 Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: 🔐 Log in to DockerHub
+      - name: 🔐 Login to DockerHub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: 🏗️ Build and push Docker image
+      - name: 🏗️ Build and push Docker image with timestamp tag
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: yourdockerhubusername/ticket-app:latest
+          tags: |
+            ${{ env.IMAGE_NAME }}:latest
+            ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}

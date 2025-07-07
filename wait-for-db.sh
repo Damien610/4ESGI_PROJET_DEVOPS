@@ -2,7 +2,6 @@
 
 echo "⏳ Attente que la base MariaDB soit disponible à $DB_HOST:$DB_PORT..."
 
-# Lancer un script Node.js pour faire un "ping" via mysql2
 node <<EOF
 const mysql = require('mysql2/promise');
 
