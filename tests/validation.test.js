@@ -1,5 +1,6 @@
 const request = require('supertest');
 const app = require('../app');
+const pool = require('../db');
 
 describe('Validation des tickets', () => {
     test('Refuse un ticket sans email', async () => {
@@ -19,4 +20,8 @@ describe('Validation des tickets', () => {
 
         expect(res.statusCode).toBe(400);
     });
+});
+
+afterAll(async () => {
+    await pool.end();
 });
