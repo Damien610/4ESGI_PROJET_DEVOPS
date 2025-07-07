@@ -1,5 +1,6 @@
 const request = require('supertest');
 const app = require('../app');
+const pool = require("../db");
 require('dotenv').config();
 
 describe('E2E – Formulaire et tickets', () => {
@@ -20,4 +21,8 @@ describe('E2E – Formulaire et tickets', () => {
         expect(res.statusCode).toBe(200);
         expect(res.text).toMatch(/Liste des tickets/i);
     });
+});
+
+afterAll(async () => {
+    await pool.end();
 });
