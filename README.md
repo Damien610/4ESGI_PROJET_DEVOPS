@@ -132,5 +132,4 @@ Sur le VPS :
 ##Auteurs
 Damien Nerriere - @Damien610
 Aymane el ghaouti - @Dragapsy 
-"""
 ---
