@@ -101,8 +101,8 @@ jobs:
             ${{ env.IMAGE_NAME }}:latest
             ${{ steps.tag.outputs.value }}
 
-      - name:  Local Deploy
+      - name: Local Deploy
         run: |
-          cd ~/ticket-app
           docker compose pull
           docker compose up -d --remove-orphans
+      
