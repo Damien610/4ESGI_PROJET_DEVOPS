@@ -130,6 +130,6 @@ Sur le VPS :
 5. lien VPS : `http://180.149.198.141/`
 
 ## Auteurs
-Damien Nerriere - @Damien610
-Aymane el ghaouti - @Dragapsy 
+1. Damien Nerriere - @Damien610
+2. Aymane el ghaouti - @Dragapsy 
 ---
