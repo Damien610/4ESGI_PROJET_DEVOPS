@@ -127,5 +127,5 @@ Sur le VPS :
 2. Le projet est cloné dans `/root/app`
 3. `docker-compose.yml` définit les services `app` et `mariadb`
 4. Déploiement automatique après chaque push sur `main`
-
+5. lien VPS : `http://180.149.198.141/`
 ---
