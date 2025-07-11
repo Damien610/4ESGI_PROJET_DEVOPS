@@ -10,7 +10,6 @@ export default defineConfig([
     },
     rules: {
       "semi": ["error", "always"],
-      "quotes": ["error", "double"],
       "no-unused-vars": "warn",
       "no-console": "off",
       "eqeqeq": ["error", "always"]
