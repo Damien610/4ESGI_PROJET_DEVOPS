@@ -19,16 +19,16 @@ const mysql = require('mysql2/promise');
       });
 
       await conn.query('SELECT 1');
-      console.log('✅ MariaDB est prête. Lancement du seed...');
+      console.log(' MariaDB est prête. Lancement du seed...');
       process.exit(0);
     } catch (err) {
-      console.log('⏳ Tentative de connexion échouée, nouvelle tentative dans 2s...');
+      console.log('Tentative de connexion échouée, nouvelle tentative dans 2s...');
       await new Promise(r => setTimeout(r, 2000));
       attempt++;
     }
   }
 
-  console.error('❌ Impossible de se connecter à MariaDB après plusieurs tentatives.');
+  console.error(' Impossible de se connecter à MariaDB après plusieurs tentatives.');
   process.exit(1);
 })();
 EOF
