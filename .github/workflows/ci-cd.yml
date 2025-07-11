@@ -67,8 +67,17 @@ jobs:
       - name: Unit Tests
         run: npm test -- --testPathPattern=validation
 
-      - name: E2E Tests
-        run: npm test -- --testPathPattern=e2e
+       - name: Start app in background
+        run: |
+          nohup npm start &
+          sleep 5 # attend que l'app soit dispo
+
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm start
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 60
 
   build_and_deploy:
     needs: test
