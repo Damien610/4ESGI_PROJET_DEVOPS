@@ -55,7 +55,7 @@ jobs:
         run: |
           for i in {1..30}; do
             if mysqladmin ping -h 127.0.0.1 -u root -proot --silent; then
-              echo "✅ MariaDB is ready"
+              echo "MariaDB is ready"
               break
             fi
             sleep 2
