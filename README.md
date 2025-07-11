@@ -129,7 +129,7 @@ Sur le VPS :
 4. Déploiement automatique après chaque push sur `main`
 5. lien VPS : `http://180.149.198.141/`
 
-##Auteurs
+## Auteurs
 Damien Nerriere - @Damien610
 Aymane el ghaouti - @Dragapsy 
 ---
