@@ -34,7 +34,7 @@ async function seed() {
     (3, 'carol@example.com', 'Suggestion d’amélioration.')
   `);
 
-    console.log('✅ Base de données initialisée avec succès.');
+    console.log('Base de données initialisée avec succès.');
     process.exit();
 }
 
